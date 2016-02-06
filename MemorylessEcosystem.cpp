@@ -1,5 +1,3 @@
-//Умират с вероятност
-
 #include<algorithm>
 #include<cstdio>
 #include<cstdlib>
