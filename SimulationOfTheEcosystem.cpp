@@ -9,7 +9,7 @@
 #include<vector>
 #include<ctime>
 using namespace std;
-///////////////////////////// това го взех от някъде, ама няма да ви кажа от къде
+/////////////////////////////
 random_device rd;
 mt19937 g(rd());
 mt19937 mt_rand(time(0));
