@@ -6,4 +6,4 @@ GeneticAlgorithm.cpp -- The genetic algorithm constructed by us (Section 3) <br 
 MemorylessEcosystem.cpp -- Simulation of the memoryless ecosystem suggested (Section 5) <br />
 SimulationOfTheEcosystem.cpp -- Simulation of the ecosystem with three species forming a food chain
 
-pollykodi/Science/2015/main.pdf - Full documentation of the project (soon-to-be updated)
+main.pdf - Full documentation of the project, last changed on 28 March 2016
