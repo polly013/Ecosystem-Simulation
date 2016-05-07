@@ -238,6 +238,8 @@ int main (){
         Triple Top = q.front();
         q.pop();
 
+        printf ("%d %d %d\n",Top.plankton, Top.fish, Top.shark);
+
         int result = 4;
 
         for (int i=0; i<20; i++){
