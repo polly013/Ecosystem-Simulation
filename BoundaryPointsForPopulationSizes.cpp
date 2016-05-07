@@ -28,9 +28,9 @@ const int PlanktonBreed = 3, FishBreed = 9, SharkBreed = 26, FishStarve = 6, Sha
 
 bool used[MAXPlankton][MAXFish][MAXShark];
 
-const int trpl[6] = {2*plankton_tr+1, -2*plankton_tr-1, 0, 0, 0, 0};
-const int trfi[6] = {0, 0, 2*fish_tr+1, -2*fish_tr-1, 0, 0};
-const int trsh[6] = {0, 0, 0, 0, 2*shark_tr+1, -2*shark_tr-1};
+const int dPlankton[6] = {2*plankton_tr+1, -2*plankton_tr-1, 0, 0, 0, 0};
+const int dFish[6] = {0, 0, 2*fish_tr+1, -2*fish_tr-1, 0, 0};
+const int dShark[6] = {0, 0, 0, 0, 2*shark_tr+1, -2*shark_tr-1};
 
 struct Triple{
     int plankton, fish, shark;
@@ -226,7 +226,6 @@ int run (int PlanktonBreed, int FishBreed, int SharkBreed, int FishStarve, int S
 }
 
 int main (){
-    cout <<sizeof(used) << endl;
     Triple starting_point;
     starting_point.plankton = 3107;
     starting_point.fish = 296;
@@ -236,89 +235,58 @@ int main (){
     q.push (starting_point);
 
     while (!q.empty()){
-        Triple current = q.front();
+        Triple Top = q.front();
         q.pop();
 
-        int b[5] = {0,0,0,0,0};
+        int result = 4;
 
         for (int i=0; i<20; i++){
-            int balance = run (PlanktonBreed, FishBreed, SharkBreed, FishStarve, SharkStarve, current.plankton, current.fish, current.shark);
-            cout << balance << " " ;
-            b[balance]++;
+            result = run (PlanktonBreed, FishBreed, SharkBreed, FishStarve, SharkStarve, Top.plankton, Top.fish, Top.shark);
+
+            if (result != 4) break;
         }
-        cout << endl;
 
         Triple help;
 
-        if (b[1] == 20)
-            for (int i=0; i<6; i++){
-                help.plankton = current.plankton + trpl[i];
-                help.fish = current.fish + trfi[i];
-                help.shark = current.shark + trsh[i];
+        for (int i=0; i<6; i++){
+            help.plankton = Top.plankton + dPlankton[i];
+            help.fish = Top.fish + dFish[i];
+            help.shark = Top.shark + dShark[i];
 
-                if (help.plankton <= current.plankton && help.fish >= current.fish) continue;
-                if (help.plankton+help.fish+help.shark > N*N) continue;
+            if (help.plankton < 0 || help.fish < 0 || help.shark < 0) continue;
+            if (help.plankton > MAXPlankton || help.fish > MAXFish || help.shark > MAXShark) continue;
+            if (help.plankton + help.fish + help.shark > N*N) continue;
+            if (used[help.plankton][help.fish][help.shark]) continue;
 
-                if (help.plankton > 0 && help.fish > 0 && help.shark > 0 &&
-                        help.plankton < MAXPlankton && help.fish < MAXFish && help.shark < MAXShark)
-                    if (used[help.plankton][help.fish][help.shark] == 0) {
-                        used[help.plankton][help.fish][help.shark] = 1;
-                        q.push (help);
-                    }
+            if (result == 4){
+                used[help.plankton][help.fish][help.shark] = 1;
+                q.push (help);
             }
 
-        else if (b[2] == 20)
-            for (int i=0; i<6; i++){
-                help.plankton = current.plankton + trpl[i];
-                help.fish = current.fish + trfi[i];
-                help.shark = current.shark + trsh[i];
+            if (result == 3){// (x, y, z) --> (x, y, z-a), (x, y-a, z)
+                if (help.shark < Top.shark) continue;
+                if (help.fish < Top.fish) continue;
 
-                if (help.plankton <= current.plankton && help.fish == current.fish) continue;
-                if (help.fish <= current.fish && help.shark >= current.shark) continue;
-
-                if (help.plankton+help.fish+help.shark > N*N) continue;
-
-                if (help.plankton > 0 && help.fish > 0 && help.shark > 0 &&
-                        help.plankton < MAXPlankton && help.fish < MAXFish && help.shark < MAXShark)
-                    if (used[help.plankton][help.fish][help.shark] == 0) {
-                        used[help.plankton][help.fish][help.shark] = 1;
-                        q.push (help);
-                    }
+                used[help.plankton][help.fish][help.shark] = 1;
+                q.push (help);
             }
 
-        else if (b[3] == 20)
-            for (int i=0; i<6; i++){
-                help.plankton = current.plankton + trpl[i];
-                help.fish = current.fish + trfi[i];
-                help.shark = current.shark + trsh[i];
+            if (result == 2){// (x, y, z) --> (x, y-a, z) , (x, y, z+a), (x-a, y, z)
+                if (help.plankton < Top.plankton) continue;
+                if (help.fish < Top.fish) continue;
+                if (help.shark > Top.shark) continue;
 
-                if (help.fish <= current.fish && help.shark <= current.shark) continue;
-                if (help.plankton+help.fish+help.shark > N*N) continue;
-
-                if (help.plankton > 0 && help.fish > 0 && help.shark > 0 &&
-                        help.plankton < MAXPlankton && help.fish < MAXFish && help.shark < MAXShark)
-                    if (used[help.plankton][help.fish][help.shark] == 0) {
-                        used[help.plankton][help.fish][help.shark] = 1;
-                        q.push (help);
-                    }
+                used[help.plankton][help.fish][help.shark] = 1;
+                q.push (help);
             }
 
-        else{
-            for (int i=0; i<6; i++){
-                help.plankton = current.plankton + trpl[i];
-                help.fish = current.fish + trfi[i];
-                help.shark = current.shark + trsh[i];
+            if (result == 1){// (x, y, z) --> (x-a, y, z), (x, y+a, z)
+                if (help.plankton < Top.plankton) continue;
+                if (help.fish > Top.fish) continue;
 
-                if (help.plankton+help.fish+help.shark > N*N) continue;
-
-                if (help.plankton > 0 && help.fish > 0 && help.shark > 0 &&
-                        help.plankton < MAXPlankton && help.fish < MAXFish && help.shark < MAXShark)
-                    if (used[help.plankton][help.fish][help.shark] == 0) {
-                        used[help.plankton][help.fish][help.shark] = 1;
-                        q.push (help);
-                    }
+                used[help.plankton][help.fish][help.shark] = 1;
+                q.push (help);
             }
-            cout << current.plankton <<  " "<< current.fish << " " << current.shark << endl;
         }
     }
     return 0;
