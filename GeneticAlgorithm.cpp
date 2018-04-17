@@ -86,7 +86,6 @@ void init (int NumPlankton, int NumFish, int NumShark){
 }
 
 bool eat (int a, int b, int p, int pred, int Breed){
-  //  cout << "eat  " << a << " " << b << endl;
     vector<pair<int,int> > Food;
 
     for (int i=0; i<4; i++)
@@ -106,9 +105,7 @@ bool eat (int a, int b, int p, int pred, int Breed){
     Organism[p][nx][ny].DaysFeed = 0;
 //    Organism[p][nx][ny].DontMove = -1;
 
-//    cout << "манджа ^^  " << nx << " " << ny << endl;
     if (Organism[p][nx][ny].DaysLife == Breed) { ///Reproduce
- //       cout << "репродуцирам се\n";
         Organism[p][a][b].Grid = pred;
         Organism[p][a][b].DaysFeed = Organism[p][a][b].DaysLife = 0;
 //        Organism[p][a][b].DontMove = p;
@@ -121,7 +118,6 @@ bool eat (int a, int b, int p, int pred, int Breed){
 }
 
 void move (int x, int y, int p, int Starve, int Breed){ // местим организма, стоящ в координати (i,j)
-  //  cout << x << " " << y << endl;
     /////////Яде
     if (Organism[p^1][x][y].Grid != 1)
         if (eat (x, y, p, Organism[p^1][x][y].Grid, Breed)) return;
@@ -172,7 +168,6 @@ void move (int x, int y, int p, int Starve, int Breed){ // местим орга
 
         Organism[p][nx][ny].DaysLife = 0;
     }
-  //  cout << "преместих се   " << nx << " " << ny << endl;
 }
 
 int run (int PlanktonBreed, int FishBreed, int FishStarve, int SharkBreed, int SharkStarve, int NumPlankton, int NumFish, int NumShark){
@@ -204,7 +199,6 @@ int run (int PlanktonBreed, int FishBreed, int FishStarve, int SharkBreed, int S
 
 //        print (p);
 
-//        cout << br1 << ", " << br2 << ", " << br3 << ";\n";
         if (br1 == 0 || br2 == 0 || br3 == 0) return st;
         if (st == Steps) return st;
         p^=1;
@@ -295,7 +289,6 @@ int Selection (){
     }
 
     cout << r << " " << currsum+F[MAXPopulation-1] << " " << sum << endl;
-    cout <<"HAHA\n";
     return 0;
 }
 
