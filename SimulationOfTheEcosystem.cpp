@@ -82,7 +82,6 @@ void init (int NumPlankton, int NumFish, int NumShark, int PlanktonBreed, int Fi
 }
 
 bool eat (int a, int b, int p, int pred, int Breed){
-  //  cout << "eat  " << a << " " << b << endl;
     vector<pair<int,int> > Food;
 
     for (int i=0; i<4; i++)
@@ -101,9 +100,7 @@ bool eat (int a, int b, int p, int pred, int Breed){
     Organism[p][nx][ny].DaysLife = Organism[p^1][a][b].DaysLife+1;
     Organism[p][nx][ny].DaysFeed = 0;
 
-//    cout << "манджа ^^  " << nx << " " << ny << endl;
     if (Organism[p][nx][ny].DaysLife == Breed) { ///Reproduce
- //       cout << "репродуцирам се\n";
         Organism[p][a][b].Grid = pred;
         Organism[p][a][b].DaysFeed = Organism[p][a][b].DaysLife = 0;
 
@@ -115,12 +112,9 @@ bool eat (int a, int b, int p, int pred, int Breed){
 }
 
 void move (int x, int y, int p, int Starve, int Breed){ // местим организма, стоящ в координати (i,j)
-  //  cout << x << " " << y << endl;
-    /////////Яде
     if (Organism[p^1][x][y].Grid != 1)
         if (eat (x, y, p, Organism[p^1][x][y].Grid, Breed)) return;
 
-    ////////Ако няма да яде
     if (Organism[p^1][x][y].DaysFeed+1 == Starve) {
         Organism[p][x][y].Grid = 0; Organism[p][x][y].DaysFeed = 0; Organism[p][x][y].DaysLife = 0;
         return; ///Just died :C.
@@ -158,13 +152,11 @@ void move (int x, int y, int p, int Starve, int Breed){ // местим орга
 
     ///Reproduce
     if (Organism[p][nx][ny].DaysLife == Breed){
-//        cout << "репродуцирам се\n";
         Organism[p][x][y].DaysFeed = Organism[p][x][y].DaysLife = 0;
         Organism[p][x][y].Grid = Organism[p][nx][ny].Grid;
 
         Organism[p][nx][ny].DaysLife = 0;
     }
-  //  cout << "преместих се   " << nx << " " << ny << endl;
 }
 
 int run (int PlanktonBreed, int FishBreed, int FishStarve, int SharkBreed, int SharkStarve, int NumPlankton, int NumFish, int NumShark){
@@ -196,7 +188,6 @@ int run (int PlanktonBreed, int FishBreed, int FishStarve, int SharkBreed, int S
 
 //        print (p);
 
-//        if (st >= 100) cout << br1 << " " << br2 << " " << br3 << "\n";
         if (br1 == 0 || br2 == 0 || br3 == 0) {cout << "FAIL " << st << endl; return 0;}
         p^=1;
     }
@@ -205,20 +196,8 @@ int run (int PlanktonBreed, int FishBreed, int FishStarve, int SharkBreed, int S
 }
 
 int main (){
-//    run (1, 1, 2, 1, 0, 1, 1, 1);
-//    run (3, 10, 3, -1, -1, 800, 40, 0);
-  //  run (1, 10, 14*2, 17, 19*2, 189*6, 7*6, 1*4);
-
-//    run (1, 4, 6, 9, 19, 416*2, 360*2, 30*2);  // <- това е яко ама е нестабилно
-//    run (1, 4, 6, 9, 19, 2124, 802, 61);  // mai 400 000
-//    run (1, 4, 6, 9, 19, 3000, 315, 175); // 350 000   ///3287, 114, 420;
-//    run (1, 4, 6, 9, 19, 3287, 114, 420);
-
 //    clock_t start;
   //  start = clock();
-//    run (1, 11, 2, 19, 10, 1264, 1330, 270);
-//    run (1, 11, 9, 11, 30, 1094, 1074, 91);
-//    run (3, 9, 6, 26, 31, 1018, 1174, 70);
 
     while (1){
     int a, b, c;
@@ -234,34 +213,6 @@ int main (){
 }
 
 /*
- Num:  189  7 1
- Breed: 13 13 17
- Starve: 14 19
- Average:  1843  Best: 4710
-
-
-Num:  193  169 76
- Breed: 5 18 25
- Starve: 21 20
-
- Num:  280  231 90
- Breed: 8 1 18
- Starve: 3 7
- Average:  4867  Best: 8375
-
- Num:  304  111 51
- Breed: 14 8 22
- Starve: 10 19
- Average:  3476  Best: 12313
-
-
-
- Num:  267  255 79
- Breed: 14 16 23
- Starve: 19 23
- Average:  1123  Best: 11361
----- s greshniq kod ^
-
  Num:  1193  1034 391
  Breed: 9 14 26
  Starve: 16 22
