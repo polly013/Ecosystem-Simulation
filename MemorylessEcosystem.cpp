@@ -93,14 +93,11 @@ bool eat (int a, int b, int p, int predator){ /// Eat and Breed
     Organism[p][nx][ny].Reproduce = Organism[p^1][a][b].Reproduce;
     Organism[p][nx][ny].Starve = Organism[p^1][a][b].Starve;
 
-//    cout << a << " " << b << "   манджа ^^  " << nx << " " << ny << endl;
-
     ///////// Reproduce
     double ProbabilityValue = Dist (gen);
 
     if (ProbabilityValue < Organism[p][nx][ny].Reproduce) {
         Organism[p][a][b] = Organism[p][nx][ny];
-     //   cout << "въй, репродуцирам се ^^\n";
     }
 
     return 1;
@@ -112,12 +109,10 @@ void move (int x, int y, int p){ // местим организма, стоящ 
         if (eat (x, y, p, Organism[p^1][x][y].Grid)) return;
 
     ////////Ако няма да яде
-//    cout << x << " " <<  y << " no food for me :C\n";
     double ProbabilityValue = Dist (gen);
 
     if (ProbabilityValue < Organism[p^1][x][y].Starve) {
         Organism[p^1][x][y].Grid = 0; Organism[p^1][x][y].Starve = 0; Organism[p^1][x][y].Reproduce = 0;
-      //  cout << "умрях :C\n";
         return; ///Just died :C.
     }
 
@@ -132,7 +127,6 @@ void move (int x, int y, int p){ // местим организма, стоящ 
                     PossDest.emplace_back ( (x + dx[i] + N)%N, (y + dy[i] + M)%M );
 
     if (PossDest.size() == 0){
-    //    cout << " не мърдам\n";
         /// ако няма на къде да отиде
         Organism[p][x][y] = Organism[p^1][x][y];
         return;
@@ -146,14 +140,12 @@ void move (int x, int y, int p){ // местим организма, стоящ 
     int nx = PossDest[ch].first, ny = PossDest[ch].second;
 
     Organism[p][nx][ny] = Organism[p^1][x][y];
-  //  cout << "мястя се в " << nx << " " << ny << endl;
 
     ///Reproduce
     ProbabilityValue = Dist (gen);
 
     if (ProbabilityValue < Organism[p][nx][ny].Reproduce) {
         Organism[p][x][y]= Organism[p][nx][ny];
-//        cout << "ВЪЙ, ВЪЙ, ВЪЙ\n";
     }
 }
 
@@ -187,7 +179,6 @@ int run (int PlanktonBreed, int FishBreed, int FishStarve, int SharkBreed, int S
 
     //    print (p);
 
-//        cout << br1 << " " << br2 << " " << br3 << "\n";
         if (br1 == 0 || br2 == 0 || br3 == 0) {cout << "FAIL " << st << endl; return 0;}
         p^=1;
     }
